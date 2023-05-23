@@ -13,7 +13,7 @@ const AboutUs = () => {
   <h3 className='text-xl lg:text-3xl mb-4 font-semibold'>
     Welcome to our Netflix
   </h3>
-  {/* <div className='mt-3 text-sm leading-8 text-white'>
+  <div className='mt-3 text-sm leading-8 text-white'>
   <p>Netflix is a streaming platform that
    provides subscribers with access to a vast
     library of movies, TV shows, documentaries,
@@ -23,7 +23,7 @@ const AboutUs = () => {
        Netflix shifted its focus to online streaming,
         and today,it is one of the most popular streaming
     platforms in the world. </p>
-</div> */}
+</div>
 <div className='grid md:grid-cols-2 gap-6 mt-8'>
   <div className='p-8 bg-dry rounded-lg'>
     <span className='text-3xl block font-extrabold my-1'>10K</span>
