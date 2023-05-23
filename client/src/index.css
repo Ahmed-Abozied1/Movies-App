@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@400;500;600;700;800;900&family=Nunito:ital,wght@0,300;0,400;1,300;1,500&family=Poppins:ital,wght@0,100;0,200;0,300;0,700;1,100;1,200;1,300;1,600&family=Roboto:ital,wght@1,700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+input:focus,
+textarea,
+select:focus {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+/* basic classes from tailwind */
+.linear-bg {
+  background: linear-gradient(269.82deg, #07091c00 0.17%, #080a1ad6 99.87%);
+}
+.hovers {
+  @apply hidden;
+}
+.hovered:hover .hovers {
+  @apply flex-colo;
+}
+.flex-colo {
+  @apply flex flex-col justify-center items-center;
+}
+.flex-rows {
+  @apply flex flex-row justify-center items-center;
+}
+.flex-btn {
+  @apply flex  justify-between items-center;
+}
+
+.transitions {
+  @apply transition duration-300 ease-in;
+}
+
+.zIndex {
+  z-index: 1000;
+}
+
+/* Scroll bar  */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #d1d1d1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9d9d9d;
+}
+/* dark mode */
+:root {
+  --background: white;
+  --text-primary: #959f87;
+  --text-secondary: royalblue;
+  --accent: purple;
+}
+[data-theme="dark"] {
+  --background: #959f87;
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+}
