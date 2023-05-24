@@ -19,7 +19,7 @@ const protect = asyncHandler(async (req, res, next) => {
   ) {
     //set token from Bearer token in header
     try {
-      token = req.headers.authorization.splite(" ")[1];
+      token = req.headers.authorization.split(" ")[1];
       //veriefy token and get user id
       const decode = jwt.verify(token, process.env.JWT_SECRET);
       //get user id fromdecode token
@@ -27,7 +27,7 @@ const protect = asyncHandler(async (req, res, next) => {
       next();
     } catch (error) {
       console.log(error);
-      res.staus(401);
+      res.status(401);
       throw Error("Not authorized,token Failed");
     }
   }
