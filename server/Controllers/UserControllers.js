@@ -120,17 +120,15 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
     //if user exist delete user data and save it in database
 
     if (user) {
-      //if user is admin throw error message 
-if (user.isAdmin) {
-  res.status(400);
-  throw Error ("Admin user can't be deleted");
+      //if user is admin throw error message
+      if (user.isAdmin) {
+        res.status(400);
+        throw Error("Admin user can't be deleted");
+      }
 
-}
-  
-//else delete user
-await user.remove();
-res.json({message: 'User deleted successefully'});
-
+      //else delete user
+      await user.remove();
+      res.json({ message: "User deleted successefully" });
     }
 
     //else send error message
@@ -142,4 +140,37 @@ res.json({message: 'User deleted successefully'});
     res.status(400).json({ message: error.message });
   }
 });
-export { registerUser, loginUser, updateUserProfile,deleteUserProfile };
+//change user password
+//PUT/api/users/password
+const changeUserPassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    //find user in DB
+    const user = await User.findById(req.user._id);
+
+    //if user exist compare oldPassword with password then update user password user  and save it in database
+    if (user && (await bcrypt.compare(oldPassword, user.password))) {
+      //hash new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      user.password = hashedPassword;
+      await user.save();
+      res.json({ message: "Password changed " });
+    }
+
+    //else send error message
+    else {
+      res.status(404);
+      throw new Error("Invalid old password");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+export { registerUser,
+   loginUser,
+    updateUserProfile,
+     deleteUserProfile,
+    changeUserPassword
+    };
