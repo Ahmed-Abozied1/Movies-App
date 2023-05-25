@@ -110,5 +110,36 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+//Delete user Profile
+// Delete /api/users
+const deleteUserProfile = asyncHandler(async (req, res) => {
+  try {
+    //find user in DB
+    const user = await User.findById(req.user._id);
 
-export { registerUser, loginUser, updateUserProfile };
+    //if user exist delete user data and save it in database
+
+    if (user) {
+      //if user is admin throw error message 
+if (user.isAdmin) {
+  res.status(400);
+  throw Error ("Admin user can't be deleted");
+
+}
+  
+//else delete user
+await user.remove();
+res.json({message: 'User deleted successefully'});
+
+    }
+
+    //else send error message
+    else {
+      res.status(404);
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+export { registerUser, loginUser, updateUserProfile,deleteUserProfile };
