@@ -201,24 +201,22 @@ const addLickedMovies = asyncHandler(async (req, res) => {
     //if user exist compare oldPassword with password then update user password user  and save it in database
     if (user) {
       //ckeck if movie already licked
-      const isMovieLicked = user.lickedMovies.find(
-        (movie) => movie.toString() === movieId
-      );
+     
 
       //if already licked send error message
-      if (isMovieLicked) {
+      if (user.lickedMovies.includes(movieId)) {
         res.status(400);
         throw new Error("Movie Already Licked");
       }
       //else add movie to licked movies and save it
       user.lickedMovies.push(movieId);
       await user.save();
-      res.json({ message: "MOvie addes ti licked movies" });
+      res.json(user.lickedMovies);
     }
     //  else send error message
     else {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("Movie  not found");
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -231,4 +229,5 @@ export {
   deleteUserProfile,
   changeUserPassword,
   getLickedMovies,
+  addLickedMovies
 };
