@@ -168,9 +168,67 @@ const changeUserPassword = asyncHandler(async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-export { registerUser,
-   loginUser,
-    updateUserProfile,
-     deleteUserProfile,
-    changeUserPassword
-    };
+//Get all liked movies
+//Get/api/users/favourites
+const getLickedMovies = asyncHandler(async (req, res) => {
+  try {
+    //find user in DB
+    const user = await User.findById(req.user._id).populate("likedMovies");
+
+    //if user exist compare oldPassword with password then update user password user  and save it in database
+    if (user) {
+      res.json(user.likedMovies);
+    }
+
+    //else send error message
+    else {
+      res.status(404);
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+//add movie to licked movies
+//POST/api/users/favourits
+const addLickedMovies = asyncHandler(async (req, res) => {
+  const { movieId } = req.body;
+
+  try {
+    //find user in DB
+    const user = await User.findById(req.user._id);
+
+    //if user exist compare oldPassword with password then update user password user  and save it in database
+    if (user) {
+      //ckeck if movie already licked
+      const isMovieLicked = user.lickedMovies.find(
+        (movie) => movie.toString() === movieId
+      );
+
+      //if already licked send error message
+      if (isMovieLicked) {
+        res.status(400);
+        throw new Error("Movie Already Licked");
+      }
+      //else add movie to licked movies and save it
+      user.lickedMovies.push(movieId);
+      await user.save();
+      res.json({ message: "MOvie addes ti licked movies" });
+    }
+    //  else send error message
+    else {
+      res.status(404);
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+export {
+  registerUser,
+  loginUser,
+  updateUserProfile,
+  deleteUserProfile,
+  changeUserPassword,
+  getLickedMovies,
+};
