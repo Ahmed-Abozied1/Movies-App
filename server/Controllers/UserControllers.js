@@ -245,7 +245,19 @@ const deleteLickedMovies = asyncHandler(async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-export {
+//********************Admin controllers *****/
+//Get all users
+//GET /api/users
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    //find user in DB
+    const users = await User.find({});
+    res.json(users);   
+
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});export {
   registerUser,
   loginUser,
   updateUserProfile,
@@ -253,5 +265,6 @@ export {
   changeUserPassword,
   getLickedMovies,
   addLickedMovies,
-  deleteLickedMovies
+  deleteLickedMovies,
+  getUsers
 };
