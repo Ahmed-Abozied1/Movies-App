@@ -201,7 +201,6 @@ const addLickedMovies = asyncHandler(async (req, res) => {
     //if user exist compare oldPassword with password then update user password user  and save it in database
     if (user) {
       //ckeck if movie already licked
-     
 
       //if already licked send error message
       if (user.lickedMovies.includes(movieId)) {
@@ -222,6 +221,30 @@ const addLickedMovies = asyncHandler(async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+//delete all lixked  movie
+//POST/api/users/favourits
+const deleteLickedMovies = asyncHandler(async (req, res) => {
+  try {
+    //find user in DB
+    const user = await User.findById(req.user._id);
+
+    //if user exist compare oldPassword with password then update user password user  and save it in database
+    if (user) {
+      user.lickedMovies = [];
+      await user.save();
+      res.json({ message: "All licked movies deleted successfully" });
+    }
+
+    //  else send error message
+    else {
+      res.status(404);
+      throw new Error("Movie not found");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 export {
   registerUser,
   loginUser,
@@ -229,5 +252,6 @@ export {
   deleteUserProfile,
   changeUserPassword,
   getLickedMovies,
-  addLickedMovies
+  addLickedMovies,
+  deleteLickedMovies
 };
