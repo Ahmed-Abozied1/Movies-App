@@ -252,12 +252,38 @@ const getUsers = asyncHandler(async (req, res) => {
   try {
     //find user in DB
     const users = await User.find({});
-    res.json(users);   
-
+    res.json(users);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-});export {
+});
+//delete users
+//DELETE /api/users/:id
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    //find user in DB
+    const user = await User.findById(req.params.id);
+    //if user exist  delete user from db
+    if (user) {
+      //if user is admin throw error message
+      if (user.isAdmin) {
+        res.status(400);
+        throw new Error("Can't delete admin user");
+      }
+
+      //else delete user
+      await User.remove();
+      res.json({ message: "User deleted successfully" });
+    } else {
+      res.status(404);
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+export {
   registerUser,
   loginUser,
   updateUserProfile,
@@ -266,5 +292,6 @@ const getUsers = asyncHandler(async (req, res) => {
   getLickedMovies,
   addLickedMovies,
   deleteLickedMovies,
-  getUsers
+  getUsers,
+  deleteUser
 };
