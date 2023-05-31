@@ -27,9 +27,42 @@ const moviesSchema=mongoose.schema({
         type:String,
         required:true
     },
-    language:{
+    language:{    
         type:String,
         required:true
     },
+    year:{
+        type:Number,
+        required:true
+    },
+    time:{
+        type:Number,
+        required:true
+    },
+    vedio:{
+        type:String,
+       // required:true
+    },
+    rate:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    numberOfReviews:{
+        type:Number,
+        required:true,
+        default:0
+
+    },
+    reviews:[
+
+    ],
+    casts:[
+        {
+        name:{type:String,required:true},
+        image:{type:String,required:true},
+    }
+]
+
 
 })
