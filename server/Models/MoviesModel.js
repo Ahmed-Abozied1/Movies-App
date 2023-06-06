@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const reviewSchema = mongoose.Schema(
+const reviewSchema =  mongoose.Schema(
   {
     userName: { type: String, required: true },
     userImage: { type: String },
@@ -15,7 +15,7 @@ const reviewSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-const moviesSchema = mongoose.schema(
+const moviesSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
